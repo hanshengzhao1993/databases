@@ -19,6 +19,8 @@ module.exports = {
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       res.writeHead(201, headers);
+      console.log(req.body);
+      models.messages.post(req.body['message'], null);
       res.end( /*JSON.stringify(data) */); 
       console.log('post request made to messages');
     } // a function which handles posting a message to the database
@@ -32,7 +34,9 @@ module.exports = {
       console.log('get request made to users');
     },
     post: function (req, res) {
+      console.log('req', req.body);
       res.writeHead(201, headers);
+      models.users.post(req.body['username']);
       res.end( /*JSON.stringify(data) */); 
       console.log('post request made to users');
     }
