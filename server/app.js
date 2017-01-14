@@ -1,5 +1,6 @@
 var express = require('express');
 var db = require('./db');
+var controllers = require('./controllers/index.js');
 
 // Middleware
 var morgan = require('morgan');
@@ -29,4 +30,3 @@ if (!module.parent) {
   app.listen(app.get('port'));
   console.log('Listening on', app.get('port'));
 }
-

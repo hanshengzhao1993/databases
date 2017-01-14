@@ -16,7 +16,7 @@ describe('Persistent Node Chat Server', function() {
     });
     dbConnection.connect();
 
-       var tablename = ""; // TODO: fill this out
+    var tablename = 'messages'; // TODO: fill this out
 
     /* Empty the db table before each test so that multiple tests
      * (or repeated runs of the tests) won't screw each other up: */
@@ -34,6 +34,7 @@ describe('Persistent Node Chat Server', function() {
       uri: 'http://127.0.0.1:3000/classes/users',
       json: { username: 'Valjean' }
     }, function () {
+     console.log('We made it bro');
       // Post a message to the node chat server:
       request({
         method: 'POST',
@@ -44,6 +45,7 @@ describe('Persistent Node Chat Server', function() {
           roomname: 'Hello'
         }
       }, function () {
+    console.log('now we inside');
         // Now if we look in the database, we should find the
         // posted message there.
 
@@ -67,7 +69,7 @@ describe('Persistent Node Chat Server', function() {
 
   it('Should output all messages from the DB', function(done) {
     // Let's insert a message into the db
-       var queryString = "";
+       var queryString = 'SELECT text FROM messages';
        var queryArgs = [];
     // TODO - The exact query string and query args to use
     // here depend on the schema you design, so I'll leave
