@@ -2,23 +2,27 @@ var db = require('../db');
 
 module.exports = {
   messages: {
-    get: function () {
-      return db.dbConnection.query('SELECT * FROM messages', function (err, rows) {
+    get: function (callBack) {
+      db.dbConnection.query('SELECT * FROM messages', function (err, rows) {
         if (err) {
           throw err;
         }
-        return rows;
+        // console.log('rows', rows.length);
+        if (rows.length === 0) {
+          rows = [{id:null, text:null, createdAt: null, user_id:null, roomname:null}];
+        }
+        callBack(rows);
       });
     }, // a function which produces all the messages
-    post: function (text, createdAt) {
-      console.log(text)
-      var queryString = `insert into messages (text, createdAt) VALUES ("${text}", '${createdAt}')`;
+    post: function (text, createdAt, roomname) {
+      console.log(text);
+      var queryString = `insert into messages (text, createdAt, roomname) VALUES ("${text}", '${createdAt}', '${roomname}')`;
       db.dbConnection.query(queryString, function (err, rows) {
         if (err) {
           console.log(err);
           throw err;
         }
-        console.log('insert successfully', rows);
+        // console.log('insert successfully', rows);
       });
     } // a function which can be used to insert a message into the database
   },
@@ -39,31 +43,31 @@ module.exports = {
         if (err) {
           throw err;
         }
-        console.log('insert successfully', rows);
+        // console.log('insert successfully', rows);
       });
     }
   },
 
-  rooms: {
-    // Ditto as above.
-    get: function () {
-      return db.dbConnection.query('SELECT * FROM rooms', function (err, rows) {
-        if (err) {
-          throw err;
-        }
-        return rows;
-      });
-    },
-    post: function (roomname) {
-      var queryString = `insert into rooms (name) Values (${roomname})`;
-      db.dbConnection.query(queryString, function (err, rows) {
-        if (err) {
-          throw err;
-        }
-        console.log('insert successfully', rows);
-      });
-    }
-  }
+  // rooms: {
+  //   // Ditto as above.
+  //   get: function () {
+  //     return db.dbConnection.query('SELECT * FROM rooms', function (err, rows) {
+  //       if (err) {
+  //         throw err;
+  //       }
+  //       return rows;
+  //     });
+  //   },
+  //   post: function (roomname) {
+  //     var queryString = `insert into rooms (name) Values (${roomname})`;
+  //     db.dbConnection.query(queryString, function (err, rows) {
+  //       if (err) {
+  //         throw err;
+  //       }
+  //       // console.log('insert successfully', rows);
+  //     });
+  //   }
+  // }
 };
 
 
@@ -73,10 +77,10 @@ module.exports = {
 //   }
 //   console.log('insert successfully', rows);
 // });
-db.dbConnection.query('SELECT * FROM messages', function (err, rows) {
-  if (err) {
-    throw err;
-  }
-  console.log('Data received form BD', typeof rows[0], Array.isArray(rows));
-  // console.log(rows);
-});
+// db.dbConnection.query('SELECT * FROM messages', function (err, rows) {
+//   if (err) {
+//     throw err;
+//   }
+//   console.log('Data received form BD', typeof rows[0], Array.isArray(rows));
+//   // console.log(rows);
+// });

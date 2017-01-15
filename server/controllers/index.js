@@ -14,13 +14,16 @@ module.exports = {
     get: function (req, res) {
       // this function will be called when someone makes a get request to the local server
       res.writeHead(200, headers);
-      res.end( /*JSON.stringify(data) */); 
-      console.log('get request made to messages');
+      models.messages.get(function (rows) {
+        // console.log('rows', JSON.stringify(rows));
+        // console.log('ressssssssssssssssfasdfasdfasdfasdfasd', res)
+        res.end( JSON.stringify(rows) );
+      }); 
     }, // a function which handles a get request for all messages
     post: function (req, res) {
       res.writeHead(201, headers);
-      console.log(req.body);
-      models.messages.post(req.body['message'], null);
+      console.log('date, ', new Date(), 'typeof date', typeof (new Date()) );
+      models.messages.post(req.body['message'], null, req.body['roomname']);
       res.end( /*JSON.stringify(data) */); 
       console.log('post request made to messages');
     } // a function which handles posting a message to the database
@@ -34,7 +37,7 @@ module.exports = {
       console.log('get request made to users');
     },
     post: function (req, res) {
-      console.log('req', req.body);
+      console.log('req123', req.body);
       res.writeHead(201, headers);
       models.users.post(req.body['username']);
       res.end( /*JSON.stringify(data) */); 
